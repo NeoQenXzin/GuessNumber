@@ -31,51 +31,66 @@ class Game {
   playGuessing(targetNumber) {
     const userChoiceSubmit = document.getElementById("user-choice-submit");
 
+    // Gestionnaire d'événements pour la touche "Enter" dans l'input
+    this.userGuess.addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        this.submitGuess(this.targetNumber);
+      }
+    });
+
     userChoiceSubmit?.addEventListener("click", () => {
+      this.submitGuess(this.targetNumber);
       // @ts-ignore
-      let userGuessValue = this.userGuess.value;
-
-      // Valider la saisie de l'utilisateur
-      if (!this.isValidNumber(userGuessValue)) {
-        this.guessResult.innerText =
-          "🛑 The entered number is invalid. It must be between 0 and 500.\n\n";
-        return;
-      }
-      if (userGuessValue > targetNumber) {
-        this.guessResult.innerText = `🔴 The entered number is **too big** than ${userGuessValue}.\n\n`;
-        this.attemptCount += 1;
-        this.score = this.attemptCount * 5;
-        this.myscore.innerText = this.score;
-        this.schem.innerText = "🔸";
-        this.addMyGuessToShem(false);
-
-        // return playGuessing();
-      }
-
-      if (userGuessValue < targetNumber) {
-        this.guessResult.innerText = `🔴 The entered number is **too small** than ${userGuessValue}.\n\n`;
-        this.attemptCount += 1;
-        this.score = this.attemptCount * 5;
-        this.myscore.innerText = this.score;
-        this.addMyGuessToShem(false);
-        console.log(targetNumber);
-        // return playGuessing();
-      }
-      if (userGuessValue == targetNumber) {
-        this.attemptCount += 1;
-        this.score = this.attemptCount * 5;
-        this.myscore.innerText = this.score;
-        this.guessResult.innerText = `🟢 Well done! The random number was indeed ${userGuessValue}. 
-        ✨ You succeeded in ${this.attemptCount} attempts.`;
-        this.addMyGuessToShem(true);
-        this.restartButton.addEventListener("click", () => {
-          this.restartGame();
-        });
-        this.restartButton?.classList.remove("hidden");
-      }
-      userGuessValue = "";
     });
   }
+  submitGuess(targetNumber) {
+    let userGuessValue = this.userGuess.value;
+
+    // Valider la saisie de l'utilisateur
+    if (!this.isValidNumber(userGuessValue)) {
+      this.guessResult.innerText =
+        "🛑 The entered number is invalid. It must be between 0 and 500.\n\n";
+      return;
+    }
+    if (userGuessValue > targetNumber) {
+      this.guessResult.innerText = `🔴 The entered number is **too big** than ${userGuessValue}.\n\n`;
+      this.attemptCount += 1;
+      this.score = this.attemptCount;
+      this.myscore.innerText = this.score;
+      this.schem.innerText = "🔸";
+      this.addMyGuessToShem(false);
+
+      // return playGuessing();
+    }
+
+    if (userGuessValue < targetNumber) {
+      this.guessResult.innerText = `🔴 The entered number is **too small** than ${userGuessValue}.\n\n`;
+      this.attemptCount += 1;
+      this.score = this.attemptCount;
+      this.myscore.innerText = this.score;
+      this.addMyGuessToShem(false);
+      console.log(targetNumber);
+      // return playGuessing();
+    }
+    if (userGuessValue == targetNumber) {
+      this.attemptCount += 1;
+      this.score = this.attemptCount;
+      this.myscore.innerText = this.score;
+      this.guessResult.innerText = `🟢 Well done! The random number was indeed ${userGuessValue}. 
+        ✨ You succeeded in ${this.attemptCount} attempts.`;
+      this.addMyGuessToShem(true);
+      this.restartButton.addEventListener("click", () => {
+        this.restartGame();
+      });
+      this.restartButton?.classList.remove("hidden");
+      // Désactiver l'input et le bouton submit
+      this.userGuess.disabled = true;
+      document.getElementById("user-choice-submit").disabled = true;
+    }
+    this.userGuess.value = "";
+    // Remettre input vide
+  }
+
   addMyGuessToShem(boolean) {
     const widthSchem = this.schem?.getBoundingClientRect().width;
     // Position de la supposition sur le schéma en fonction de la largeur du schéma
@@ -107,7 +122,10 @@ class Game {
   }
 
   restartGame() {
-    console.log("fonctionne");
+    this.startGame();
+    // Résactiver l'input et le bouton submit
+    this.userGuess.disabled = false;
+    document.getElementById("user-choice-submit").disabled = false;
     this.attemptCount = 0;
     this.score = 0;
     this.guessMarkers = [];
@@ -115,7 +133,6 @@ class Game {
     this.guessResult.innerText = ``;
     this.renderGuesses();
     this.restartButton?.classList.add("hidden");
-    this.startGame();
   }
 }
 
