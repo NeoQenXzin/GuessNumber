@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1 class="text-center">GUESS THE NUMBER</h1>
+      <div
+        class="app bg-gray-200 flex items-center justify-center flex-col relative"
+      >
+        <!-- Page start  -->
+        <div
+          id="starter-page"
+          class="container h-full w-full relative flex items-center justify-center flex-col"
+        >
+          <div
+            class="starter text-justify text-2xl mb-8 px-8 semibold font-mono"
+          >
+            The application will generate a random number, and your task is to
+            find it in as few attempts as possible.🤡🎮
+          </div>
+          <button
+            id="button-start"
+            class="absolute bottom-28 px-12 py-6 font-semibold text-xl"
+          >
+            Start
+          </button>
+        </div>
+        <!-- Page Game -->
+
+        <div
+          id="game-page"
+          class="hidden container h-full w-3/4 relative flex items-center justify-between flex-col py-6"
+        >
+          <div class="text-justify text-2xl mb-8 px-8 semibold font-mono">
+            I generated a number between 0 and 500, try to find it 😆
+          </div>
+          <div id="score" class="text-right w-full">
+            score : <span id="myscore">0</span>
+          </div>
+          <div class="w-3/4">
+            <h3 class="font-bold text-sm mb-3">your guess :</h3>
+            <div class="flex flex-row">
+              <input type="number" id="your-guess" class="mr-4" />
+              <button id="user-choice-submit">Submit</button>
+            </div>
+            <p
+              class="subtitle text-stone-500 italic text-xs font-thin font-sans mt-4"
+            >
+              Enter your guessing number
+            </p>
+            <p id="guess-result" class="font-bold"></p>
+          </div>
+          <div
+            class="h-40 w-full border-zinc-400 border-2 rounded bg-white relative"
+          >
+            <div id="your-try-schem" class="w-full"></div>
+            <span class="scale0 absolute left-2 bottom-0 bold">0</span>
+            <span class="scale500 absolute right-2 bottom-0 bold">500</span>
+          </div>
+
+          <button class="hidden" id="restart">Restart</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
